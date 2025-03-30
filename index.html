@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combined QR Code Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        input:checked + div {
+            background-color: #10B981;
+        }
+
+        input:checked + div::after {
+            transform: translateX(100%);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 h-screen flex items-center justify-center">
@@ -30,10 +42,19 @@
                     <option value="6">6</option>
                 </select>
             </div>
-            <button type="submit"
-                class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
-                Generate QR Code
-            </button>
+            <div class="mb-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <span class="text-sm font-medium text-gray-600 mr-2">Confusable URL</span>
+                    <label for="toggleConfuse" class="inline-flex relative items-center cursor-pointer">
+                        <input type="checkbox" id="toggleConfuse" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-slate-300 dark:peer-focus:ring-indigo-300 rounded-full peer dark:bg-slate-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-slate-500 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-400 peer-checked:bg-indigo-600"></div>
+                    </label>
+                </div>
+                <button type="submit"
+                    class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 ml-auto">
+                    Generate QR Code
+                </button>
+            </div>
         </form>
         <div id="result" class="mt-4"></div>
 

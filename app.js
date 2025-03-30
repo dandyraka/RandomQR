@@ -2,7 +2,7 @@ document.getElementById('qrForm').addEventListener('submit', (event) => {
     event.preventDefault();
 
     try {
-        const url = document.getElementById('url').value;
+        let url = document.getElementById('url').value;
         const mainQRPosition = document.getElementById('mainQRPosition').value;
 
         const qrCodes = generateQRCode(url);
@@ -11,6 +11,23 @@ document.getElementById('qrForm').addEventListener('submit', (event) => {
         console.error(error);
     }
 });
+
+const generateConfusableUrl = (url) => {
+    try {
+        const urlObj = new URL(url);
+        const params = new URLSearchParams(urlObj.search);
+        
+        params.forEach((value, key) => {
+            params.set(key, generateRandomText(value.length));
+        });
+        
+        urlObj.search = params.toString();
+        return urlObj.toString();
+    } catch (error) {
+        console.error('Invalid URL:', error);
+        return url;
+    }
+};
 
 const generateRandomText = (length) => {
     let result = '';
@@ -31,7 +48,7 @@ const generateQRCode = (url) => {
 
     const urlLength = url.length;
     const randomQRImageTags = Array.from({ length: 5 }, () => {
-        const randomText = generateRandomText(urlLength);
+        const randomText = document.getElementById('toggleConfuse').checked && url.includes('?') ? generateConfusableUrl(url) : generateRandomText(urlLength);
         const randomQRCode = qrcode(0, 'L');
         randomQRCode.addData(randomText);
         randomQRCode.make();
@@ -43,6 +60,7 @@ const generateQRCode = (url) => {
 
     return [mainQRImage, ...randomQRImageTags];
 };
+
 
 const createCombinedImage = (qrImages, mainQRPosition) => {
     const canvas = document.createElement('canvas');
